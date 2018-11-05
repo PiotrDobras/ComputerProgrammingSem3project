@@ -13,6 +13,7 @@ public:
 class Wall : public Environment {
 public:
 	Wall() {
+		SetGlyph('#', 15, false);
 		blocksMovement = true;
 		blocksVision = true;
 	};
@@ -22,6 +23,7 @@ public:
 class Floor : public Environment {
 public:
 	Floor() {
+		SetGlyph('.', 7, false);
 		blocksMovement = false;
 		blocksVision = false;
 	};
@@ -31,6 +33,7 @@ public:
 class Pit : public Environment {
 public:
 	Pit() {
+		SetGlyph(' ', 0, false);
 		blocksMovement = true;
 		blocksVision = false;
 	};
@@ -40,6 +43,7 @@ public:
 class Obstacle : public Environment {
 public:
 	Obstacle() {
+		SetGlyph('%', 0, false);
 		blocksMovement = true;
 		blocksVision = false;
 	};

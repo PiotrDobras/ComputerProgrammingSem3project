@@ -5,22 +5,23 @@
 void InitializeScreen() {
 	for (int i=0; i < 25; i++) {
 		for (int j=0; j < 80; j++) {
-			screen[j][i] = '#';
+			screen[j][i] = ' ';
 			screen_next[j][i] = ' ';
-			screen_color[j][i] = 4;
+			screen_color[j][i] = 15;
 			screen_color_next[j][i] = 15;
 		}
 	}
-	UpdateFrame();
+	UpdateScreen();
 }
 
-void UpdateFrame() {
+void UpdateScreen() {
 	static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	std::cout.flush();
+	COORD coord = { (SHORT)0, (SHORT)0 };
 	for (int i=0; i < 25; i++) {
 		for (int j=0; j < 80; j++) {
 			if (screen_color[j][i] != screen_color_next[j][i] || screen[j][i] != screen_next[j][i]) {
-				COORD coord = { (SHORT)j, (SHORT)i };
+				coord = { (SHORT)j, (SHORT)i };
 				SetConsoleCursorPosition(hOut, coord);
 				SetConsoleTextAttribute(hOut, screen_color_next[j][i]);
 				std::cout << screen_next[j][i];
@@ -29,6 +30,11 @@ void UpdateFrame() {
 			}
 		}
 	}
+	coord = { (SHORT)0, (SHORT)0 };
+	SetConsoleCursorPosition(hOut, coord);
+	coord = { (SHORT)79, (SHORT)24 };
+	SetConsoleCursorPosition(hOut, coord);
+	SetConsoleTextAttribute(hOut, 7);
 	std::cout.flush();
 }
 
