@@ -25,3 +25,11 @@ public:
 	Enemy();
 	virtual ~Enemy() {};
 };
+
+class Character :
+	public GameObject
+{
+public:
+	Character();
+	virtual ~Character();
+};
