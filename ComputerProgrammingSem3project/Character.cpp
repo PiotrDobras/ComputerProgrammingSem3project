@@ -7,8 +7,6 @@ Player::Player() {
 	maxHealth = 20;
 	experience = 0;
 	level = 1;
-	x = 33;
-	y = 33;
 }
 
 Enemy::Enemy() {

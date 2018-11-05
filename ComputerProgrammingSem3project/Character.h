@@ -3,10 +3,6 @@
 
 class Character : public GameObject{
 public:
-	int GetX() { return x; };
-	int GetY() { return y; };
-	void SetX(int nx) { x = nx; }
-	void SetY(int ny) { y = ny; }
 	Character() {};
 	virtual ~Character() {};
 };
@@ -20,6 +16,10 @@ protected:
 	int experience;
 	int level;
 public:
+	int GetX() { return x; };
+	int GetY() { return y; };
+	void SetX(int nx) { x = nx; }
+	void SetY(int ny) { y = ny; }
 	Player();
 	~Player() {};
 };
