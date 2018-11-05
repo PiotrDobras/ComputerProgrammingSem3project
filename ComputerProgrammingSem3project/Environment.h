@@ -1,5 +1,8 @@
 #pragma once
+#include <iostream>
 #include "GameObject.h"
+
+using namespace std;
 
 class Environment : public GameObject {
 protected:
@@ -18,6 +21,7 @@ public:
 		blocksVision = true;
 	};
 	virtual ~Wall() {};
+	void Inspect() { cout << "Found wall" << endl; }
 };
 
 class Floor : public Environment {

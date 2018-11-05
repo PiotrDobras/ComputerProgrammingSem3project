@@ -120,12 +120,14 @@
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="ConsoleGraphics.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="MapGenerator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

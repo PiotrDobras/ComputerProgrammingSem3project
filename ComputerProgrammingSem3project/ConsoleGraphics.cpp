@@ -39,6 +39,8 @@ void UpdateScreen() {
 }
 
 void DrawAt(int x, int y, char ch, int color) {
-	screen_next[x][y] = ch;
-	screen_color_next[x][y] = color;
+	if (x >= 0 && x < 80 && y >= 0 && y < 25) {
+		screen_next[x][y] = ch;
+		screen_color_next[x][y] = color;
+	}
 }
