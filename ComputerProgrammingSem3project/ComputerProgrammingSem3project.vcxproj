@@ -116,12 +116,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="ConsoleGraphics.cpp" />
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h" />
+    <ClInclude Include="ConsoleGraphics.h" />
     <ClInclude Include="Environment.h" />
     <ClInclude Include="GameObject.h" />
   </ItemGroup>

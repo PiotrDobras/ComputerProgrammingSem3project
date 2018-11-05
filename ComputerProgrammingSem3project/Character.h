@@ -19,17 +19,9 @@ public:
 	~Player() {};
 };
 
-class Enemy : public Enemy {
+class Enemy : public Character {
 	int health;
 public:
 	Enemy();
 	virtual ~Enemy() {};
-};
-
-class Character :
-	public GameObject
-{
-public:
-	Character();
-	virtual ~Character();
 };
