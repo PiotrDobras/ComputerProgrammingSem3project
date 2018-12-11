@@ -2,16 +2,16 @@
 #include "GameObject.h"
 #include "Environment.h"
 
-#define WH 7
-#define HH 7
-//actual map generated is smaller by 2 in each dimension
+#define WH 9
+#define HH 9
 
-static char rawMap[WH*11][HH*11];
-static Environment *layout[WH*11][HH*11];
-static GameObject *objects[WH*11][HH*11];
-static int connections[WH][HH];
-static bool noRooms = true;
+class MapGen {
+public:
+	static char rawMap[WH * 11][HH * 11];
+	static Environment *layout[WH * 11][HH * 11];
+	static GameObject *objects[WH * 11][HH * 11];
 
-void ClearMap();
-void PlaceRoom();
-void RenderMap();
+	void ClearMap();
+	void PlaceRooms(int sizeX, int sizeY);
+	void RenderMap();
+};
