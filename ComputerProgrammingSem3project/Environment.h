@@ -9,6 +9,8 @@ protected:
 	bool blocksMovement;
 	bool blocksVision;
 public:
+	bool GetBlocksMovement();
+	bool GetBlocksVision();
 	Environment() {};
 	virtual ~Environment() {};
 };

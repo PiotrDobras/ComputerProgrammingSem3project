@@ -16,6 +16,8 @@ using namespace std;
 int main() {
 	srand(time(NULL));
 
+	MapGenerator* Map = new MapGenerator();
+
 	Player *player = new Player();
 	player->SetX(3);
 	player->SetY(3);
@@ -25,7 +27,11 @@ int main() {
 	//TODO: LOOP
 	//DRAWING PHASE
 
-	player->DrawSelf(3, 3);
+	Map->GenGenerate(player, 100);
+	Map->DrawMapSeen(player->GetX(), player->GetY());
+
+	player->DrawSelf(25, 12);
+
 	UpdateScreen();
 	//INPUT PHASE
 
