@@ -44,3 +44,11 @@ void DrawAt(int x, int y, char ch, int color) {
 		screen_color_next[x][y] = color;
 	}
 }
+
+void ClearScreen() {
+	for (int x = 0; x < 80; x++) {
+		for (int y = 0; y < 25; y++) {
+			screen_next[x][y] = ' ';
+		}
+	}
+}

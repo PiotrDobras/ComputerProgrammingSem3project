@@ -5,7 +5,9 @@
 #define ROOMS_W 8
 #define ROOMS_H 8
 
-class MapGenerator {
+class Player; //forward declaration
+
+class Map {
 private:
 	Environment* field[ROOMS_W * 11][ROOMS_H * 11];
 	GameObject* objects[ROOMS_W * 11][ROOMS_H * 11];
@@ -22,8 +24,12 @@ public:
 	void GenPlacePlayer(Player* p); //call this after completing render
 	void GenPrintCorner(); //for DEBUG purposes only
 
+	//gameplay functions
+	Environment* GetField(int x, int y);
+	GameObject* GetObject(int x, int y);
+
 	//draw functions
-	void DrawSingle(int map_x, int map_y, int screen_x, int screen_y);
+	void DrawSingle(int map_x, int map_y, int screen_x, int screen_y, bool gray);
 	void DrawMapSeen(int center_x, int center_y);
-	void DrawMapVisible();
+	void DrawMapVisible(int center_x, int center_y, int range);
 };

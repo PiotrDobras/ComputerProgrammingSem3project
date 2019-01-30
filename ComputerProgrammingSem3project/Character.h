@@ -1,5 +1,8 @@
 #pragma once
+#include "Map.h"
 #include "GameObject.h"
+
+class Map; //forward declaration
 
 class Character : public GameObject{
 public:
@@ -20,6 +23,7 @@ public:
 	int GetY() { return y; };
 	void SetX(int nx) { x = nx; }
 	void SetY(int ny) { y = ny; }
+	bool Move(Map* MG, int direction);
 	Player();
 	~Player() {};
 };

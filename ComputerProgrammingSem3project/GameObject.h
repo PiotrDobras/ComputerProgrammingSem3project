@@ -9,7 +9,9 @@ public:
 	GameObject() { SetGlyph('!', 12, true); };
 	virtual ~GameObject() {};
 	virtual void Inspect() {};
+	void SetSeen() { seen = true; }
 	void SetGlyph(char gl, int gl_color, bool start_seen);
 	void DrawSelf(int cx, int cy);
+	void DrawSelfGray(int cx, int cy);
 };
 

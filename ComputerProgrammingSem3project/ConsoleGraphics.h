@@ -8,3 +8,4 @@ static int screen_color_next[80][25];
 void InitializeScreen();
 void UpdateScreen();
 void DrawAt(int x, int y, char ch, int color);
+void ClearScreen();

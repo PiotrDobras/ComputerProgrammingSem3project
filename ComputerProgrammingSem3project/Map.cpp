@@ -4,7 +4,7 @@
 #include <fstream>
 #include <typeinfo>
 
-#include "MapGenerator.h"
+#include "Map.h"
 #include "ConsoleGraphics.h"
 #include "Character.h"
 
@@ -24,7 +24,7 @@ bool IsStructural(char ch) {
 		return false;
 }
 
-void MapGenerator::GenGenerate(Player* p, int floor) {
+void Map::GenGenerate(Player* p, int floor) {
 	GenInitialize();
 	int rms = floor * 2 + 2; //rms - RooMS
 	if (rms > 36)
@@ -35,7 +35,7 @@ void MapGenerator::GenGenerate(Player* p, int floor) {
 	GenPlacePlayer(p);
 }
 
-void MapGenerator::GenInitialize() {
+void Map::GenInitialize() {
 	for (int x = 0; x < ROOMS_W * 11; x++) {
 		for (int y = 0; y < ROOMS_H * 11; y++) {
 			raw[x][y] = '#';
@@ -48,7 +48,7 @@ void MapGenerator::GenInitialize() {
 	}
 }
 
-void MapGenerator::GenPrintCorner() {
+void Map::GenPrintCorner() {
 	for (int x = 0; x < 50; x++) {
 		for (int y = 0; y < 25; y++) {
 			DrawAt(x, y, raw[x][y], 14);
@@ -56,7 +56,7 @@ void MapGenerator::GenPrintCorner() {
 	}
 }
 
-void MapGenerator::GenPlaceRooms(int how_many) {
+void Map::GenPlaceRooms(int how_many) {
 	how_many--;
 	rooms[4][4] = true;
 	GenReadRandomRoom(4, 4);
@@ -82,7 +82,7 @@ void MapGenerator::GenPlaceRooms(int how_many) {
 	}
 }
 
-void MapGenerator::GenReadRandomRoom(int room_x, int room_y) {
+void Map::GenReadRandomRoom(int room_x, int room_y) {
 	int randomFileNumber = rand() % MAP_FILES;
 	stringstream ss;
 	ss << "rooms/";
@@ -100,7 +100,7 @@ void MapGenerator::GenReadRandomRoom(int room_x, int room_y) {
 	fin.close();
 }
 
-void MapGenerator::GenFixBlockedDoorways() {
+void Map::GenFixBlockedDoorways() {
 	bool no_change;
 	do {
 		no_change = false;
@@ -126,7 +126,7 @@ void MapGenerator::GenFixBlockedDoorways() {
 	} while (no_change == true);
 }
 
-void MapGenerator::GenRender() {
+void Map::GenRender() {
 	for (int x = 0; x < ROOMS_W * 11; x++) {
 		for (int y = 0; y < ROOMS_H * 11; y++) {
 			switch (raw[x][y]) {
@@ -147,7 +147,7 @@ void MapGenerator::GenRender() {
 	}
 }
 
-void MapGenerator::GenPlacePlayer(Player* p) {
+void Map::GenPlacePlayer(Player* p) {
 	bool complete = false;
 	while(complete == false){
 		int randX = rand() % (ROOMS_W * 11);
@@ -160,16 +160,31 @@ void MapGenerator::GenPlacePlayer(Player* p) {
 	}
 }
 
+/*----------------------
+-- GAMEPLAY FUNCTIONS --
+----------------------*/
+
+Environment* Map::GetField(int x, int y) {
+	return field[x][y];
+}
+
+GameObject* Map::GetObject(int x, int y) {
+	return objects[x][y];
+}
+
 /*---------------
 -- MAP DRAWING --
 ---------------*/
 
-void MapGenerator::DrawSingle(int map_x, int map_y, int screen_x, int screen_y) {
+void Map::DrawSingle(int map_x, int map_y, int screen_x, int screen_y, bool gray) {
 	if (map_x >= 0 && map_x < (ROOMS_W * 11) && map_y >= 0 && map_y < (ROOMS_H * 11))
-		field[map_x][map_y]->DrawSelf(screen_x, screen_y);
+		if(gray)
+			field[map_x][map_y]->DrawSelfGray(screen_x, screen_y);
+		else
+			field[map_x][map_y]->DrawSelf(screen_x, screen_y);
 }
 
-void MapGenerator::DrawMapSeen(int center_x, int center_y) {
+void Map::DrawMapSeen(int center_x, int center_y) {
 	int start_x = center_x - 25;
 	int start_y = center_y - 12;
 	int end_x = center_x + 26;
@@ -178,7 +193,7 @@ void MapGenerator::DrawMapSeen(int center_x, int center_y) {
 	int screen_y = 0;
 	for (int x = start_x; x < end_x; x++) {
 		for (int y = start_y; y < end_y; y++) {
-			DrawSingle(x, y, screen_x, screen_y);
+			DrawSingle(x, y, screen_x, screen_y, true);
 			screen_y++;
 		}
 		screen_y = 0;
@@ -186,6 +201,20 @@ void MapGenerator::DrawMapSeen(int center_x, int center_y) {
 	}
 }
 
-void MapGenerator::DrawMapVisible() {
-
+void Map::DrawMapVisible(int center_x, int center_y, int range) {
+	int start_x = center_x - range;
+	int start_y = center_y - range;
+	int end_x = center_x + range;
+	int end_y = center_y + range;
+	int screen_x = 25 - range;
+	int screen_y = 12 - range;
+	for (int x = start_x; x <= end_x; x++) {
+		for (int y = start_y; y <= end_y; y++) {
+			field[x][y]->SetSeen();
+			DrawSingle(x, y, screen_x, screen_y, false);
+			screen_y++;
+		}
+		screen_y = 12 - range;
+		screen_x++;
+	}
 }
