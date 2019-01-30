@@ -16,9 +16,6 @@ using namespace std;
 int main() {
 	srand(time(NULL));
 
-	MapGen MapGenerator;
-	MapGenerator.ClearMap();
-
 	Player *player = new Player();
 	player->SetX(3);
 	player->SetY(3);
@@ -27,16 +24,6 @@ int main() {
 
 	//TODO: LOOP
 	//DRAWING PHASE
-	
-	MapGenerator.PlaceRooms(3, 3);
-
-	MapGenerator.RenderMap();
-
-	for (int i = 0; i < HH * 11; i++) {
-		for (int j = 0; j < WH * 11; j++) {
-			MapGenerator.layout[j][i]->DrawSelf(j, i);
-		}
-	}
 
 	player->DrawSelf(3, 3);
 	UpdateScreen();
