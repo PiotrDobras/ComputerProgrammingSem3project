@@ -10,4 +10,5 @@ public:
 	EventLog(std::string event_message, int c);
 	void DrawEvent(int y);
 	void PassTurn();
+	std::string GetText() { return text; }
 };

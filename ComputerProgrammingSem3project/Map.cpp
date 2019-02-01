@@ -10,7 +10,7 @@
 #include "ConsoleGraphics.h"
 #include "Character.h"
 
-#define MAP_FILES 13
+#define MAP_FILES 20
 
 //PLAY SCREEN - 50x25
 
@@ -143,6 +143,18 @@ void Map::GenRender() {
 				break;
 			case '+':
 				field[x][y] = new Door();
+				break;
+			case '-':
+				field[x][y] = new Bars(true);
+				break;
+			case '|':
+				field[x][y] = new Bars(false);
+				break;
+			case '*':
+				field[x][y] = new MagicCrystal();
+				break;
+			case '~':
+				field[x][y] = new Water();
 				break;
 			default:
 				field[x][y] = new Environment(); //this will print red exclamation marks to indicate something's wrong

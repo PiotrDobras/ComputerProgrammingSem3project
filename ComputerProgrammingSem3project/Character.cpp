@@ -11,6 +11,39 @@ Player::Player() {
 	classArmor = 1;
 }
 
+void Player::ChangeHealth(int amount, bool ignoreArmour)
+{
+	if (amount > 0) {
+		health += amount;
+	}
+	else {
+		if (!ignoreArmour) {
+			DamageArmor(amount);
+			amount += GetArmorClass();
+		}
+		if (amount < 0)
+			amount = 0;
+		health += amount;
+	}
+	if (health > maxHealth)
+		health = maxHealth;
+	if (health < 0)
+		health = 0;
+}
+
+void Player::DamageArmor(int amount)
+{
+	amount = abs(amount);
+	if(amount > GetArmorClass())
+		amount = GetArmorClass();
+	armor -= amount;
+	if (armor <= 0) {
+		armor = 0;
+		maxArmor = 1;
+		classArmor = 0;
+	}
+}
+
 GameObject* Player::Move(Map* MG, int direction)
 {
 

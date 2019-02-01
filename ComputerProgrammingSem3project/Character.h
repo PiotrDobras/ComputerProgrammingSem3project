@@ -29,6 +29,8 @@ public:
 	int GetArmorClass() { return classArmor; };
 	void SetX(int nx) { x = nx; }
 	void SetY(int ny) { y = ny; }
+	void ChangeHealth(int amount, bool ignoreArmour);
+	void DamageArmor(int amount);
 	GameObject* Move(Map* MG, int direction);
 	Player();
 	~Player() {};

@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+
 #include "GameObject.h"
 
 using namespace std;
@@ -14,6 +15,10 @@ public:
 	Environment() {};
 	virtual ~Environment() {};
 };
+
+/*
+  [ [ BASIC STRUCTURE ] ]
+*/
 
 class Wall : public Environment {
 public:
@@ -61,4 +66,56 @@ public:
 		SetGlyph('.', 4, true);
 		return new EventLog("You open the door", 6);
 	}
+};
+
+/*
+  [ [ PRETTY EXTRAS ] ]
+*/
+
+class Bars : public Environment {
+public:
+	Bars(bool horizontal) {
+		if (horizontal)
+			SetGlyph('-', 15, false);
+		else
+			SetGlyph('|', 15, false);
+		blocksMovement = true;
+		blocksVision = false;
+	};
+	virtual ~Bars() {};
+	EventLog* Inspect() { return new EventLog("These are prison bars", 7); }
+};
+
+class MagicCrystal : public Environment {
+protected:
+	bool active;
+public:
+	MagicCrystal() {
+		SetGlyph('*', 13, true);
+		blocksMovement = true;
+		blocksVision = false;
+		active = true;
+	};
+	virtual ~MagicCrystal() {};
+	EventLog* Inspect() {
+		SetGlyph('*', 5, true);
+		if (active) {
+			active = false;
+			return new EventLog("It fully healed you!", 13);
+		}
+		else {
+			return new EventLog("This is a magic crystal", 7);
+		}
+	}
+};
+
+class Water : public Environment {
+public:
+	Water() {
+		SetGlyph('~', 11, false);
+		blocksMovement = true;
+		blocksVision = false;
+	};
+	virtual ~Water() {};
+	EventLog* Inspect() { return new EventLog("This is deep water", 7); }
 };

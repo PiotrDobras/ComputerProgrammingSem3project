@@ -15,6 +15,10 @@ void Info::PushEvent(EventLog * e)
 	eventlog[2] = eventlog[1];
 	eventlog[1] = eventlog[0];
 	eventlog[0] = e;
+
+	if (e->GetText() == "It fully healed you!") {
+		player->ChangeHealth(999999, true);
+	}
 }
 
 void Info::PassTurn()

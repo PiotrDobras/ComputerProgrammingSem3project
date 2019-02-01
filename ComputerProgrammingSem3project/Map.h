@@ -6,6 +6,7 @@
 #define ROOMS_H 8
 
 class Player; //forward declaration
+class Environment;
 
 class Map {
 private:
