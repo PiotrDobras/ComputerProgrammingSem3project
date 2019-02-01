@@ -10,7 +10,7 @@
 #include "ConsoleGraphics.h"
 #include "Character.h"
 
-#define MAP_FILES 5
+#define MAP_FILES 13
 
 //PLAY SCREEN - 50x25
 
@@ -141,6 +141,9 @@ void Map::GenRender() {
 			case ' ':
 				field[x][y] = new Pit();
 				break;
+			case '+':
+				field[x][y] = new Door();
+				break;
 			default:
 				field[x][y] = new Environment(); //this will print red exclamation marks to indicate something's wrong
 				break;
@@ -195,7 +198,7 @@ void Map::DrawRaycast(int x, int y, float direction, int range) {
 		int scy = static_cast<int>(sy + dy);
 		field[cx][cy]->SetSeen();
 		field[cx][cy]->DrawSelf(scx, scy);
-		if (field[cx][cy]->GetBlocksVision())
+		if (field[cx][cy]->GetBlocksVision() && !(cx == x && cy == y))
 			break;
 		fx += xstep;
 		dx += xstep;

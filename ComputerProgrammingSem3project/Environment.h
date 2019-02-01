@@ -9,8 +9,8 @@ protected:
 	bool blocksMovement;
 	bool blocksVision;
 public:
-	bool GetBlocksMovement();
-	bool GetBlocksVision();
+	bool GetBlocksMovement() { return blocksMovement; }
+	bool GetBlocksVision() { return blocksVision; }
 	Environment() {};
 	virtual ~Environment() {};
 };
@@ -23,7 +23,7 @@ public:
 		blocksVision = true;
 	};
 	virtual ~Wall() {};
-	void Inspect() { cout << "Found wall" << endl; }
+	EventLog* Inspect() { return new EventLog("This is a wall", 7); }
 };
 
 class Floor : public Environment {
@@ -44,14 +44,21 @@ public:
 		blocksVision = false;
 	};
 	virtual ~Pit() {};
+	EventLog* Inspect() { return new EventLog("This is a bottomless pit", 7); }
 };
 
-class Obstacle : public Environment {
+class Door : public Environment {
 public:
-	Obstacle() {
-		SetGlyph('%', 0, false);
+	Door() {
+		SetGlyph('+', 4, false);
 		blocksMovement = true;
-		blocksVision = false;
+		blocksVision = true;
 	};
-	virtual ~Obstacle() {};
+	virtual ~Door() {};
+	EventLog* Inspect() { 
+		blocksMovement = false;
+		blocksVision = false;
+		SetGlyph('.', 4, true);
+		return new EventLog("You open the door", 6);
+	}
 };

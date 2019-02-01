@@ -6,36 +6,54 @@ Player::Player() {
 	SetGlyph('@', 15, true);
 	health = 20;
 	maxHealth = 20;
+	armor = 10;
+	maxArmor = 10;
+	classArmor = 1;
 }
 
-bool Player::Move(Map* MG, int direction)
+GameObject* Player::Move(Map* MG, int direction)
 {
+
+	Environment* f_obj = NULL;
 	//see if the tile is blocked by environment
 	switch (direction){ 
 	case 0:
 		if (MG->GetField(x + 1, y)->GetBlocksMovement() == false) {
 			SetX(x + 1);
-			return true;
-		}break;
+		}
+		else {
+			f_obj = MG->GetField(x + 1, y);
+		}
+		break;
 	case 90:
 		if (MG->GetField(x, y - 1)->GetBlocksMovement() == false){
 			SetY(y - 1);
-			return true;
-		}break;
+		}
+		else {
+			f_obj = MG->GetField(x, y - 1);
+		}
+		break;
 	case 180:
 		if (MG->GetField(x - 1, y)->GetBlocksMovement() == false){
 			SetX(x - 1);
-			return true;
-		}break;
+		}
+		else {
+			f_obj = MG->GetField(x - 1, y);
+		}
+		break;
 	case 270:
 		if (MG->GetField(x, y + 1)->GetBlocksMovement() == false) {
 			SetY(y + 1);
-			return true;
-		}break;
-	default:
-		return false;
+		}
+		else {
+			f_obj = MG->GetField(x, y + 1);
+		}
+		break;
 	}
-	return false;
+	if (f_obj != NULL)
+		return f_obj;
+
+	return NULL;
 }
 
 Enemy::Enemy() {

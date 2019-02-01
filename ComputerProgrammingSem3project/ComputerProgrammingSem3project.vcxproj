@@ -118,7 +118,9 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="ConsoleGraphics.cpp" />
     <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Info.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
   </ItemGroup>
@@ -126,7 +128,9 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="ConsoleGraphics.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Info.h" />
     <ClInclude Include="Map.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

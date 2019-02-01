@@ -10,6 +10,7 @@
 #include "Environment.h"
 #include "Character.h"
 #include "Map.h"
+#include "Info.h"
 
 using namespace std;
 
@@ -18,15 +19,17 @@ int main() {
 
 	Map* map = new Map();
 
-	Player *player = new Player();
+	Player* player = new Player();
 	player->SetX(3);
 	player->SetY(3);
+
+	Info* info = new Info(player);
 
 	bool terminate = false;
 
 	InitializeScreen();
 
-	map->GenGenerate(player, 10);
+	map->GenGenerate(player, info->GetFloor());
 
 	while (terminate == false) {
 		//DRAWING PHASE
@@ -38,23 +41,25 @@ int main() {
 
 		player->DrawSelf(25, 12);
 
+		info->DrawGUI();
+
 		UpdateScreen();
 
 		//INPUT PHASE
 
-		bool pass_turn = false;
+		GameObject* obj = NULL;
 		switch (_getch()) {
 		case 100: //D
-			pass_turn = player->Move(map, 0);
+			obj = player->Move(map, 0);
 			break;
 		case 119: //W
-			pass_turn = player->Move(map, 90);
+			obj = player->Move(map, 90);
 			break;
 		case 97: //A
-			pass_turn = player->Move(map, 180);
+			obj = player->Move(map, 180);
 			break;
 		case 115: //S
-			pass_turn = player->Move(map, 270);
+			obj = player->Move(map, 270);
 			break;
 		case 27: //ESC
 			terminate = true;
@@ -63,12 +68,10 @@ int main() {
 			break;
 		}
 
-		//EVALUATION PHASE
-
-		if (pass_turn) {
-			//do something here when turn has passed
-			//like enemies moving, health regenerating and all that
+		if (obj != NULL) {
+			info->PushEvent(obj->Inspect());
 		}
+		info->PassTurn();
 
 	}//main loop end
 
