@@ -6,8 +6,6 @@ Player::Player() {
 	SetGlyph('@', 15, true);
 	health = 20;
 	maxHealth = 20;
-	experience = 0;
-	level = 1;
 }
 
 bool Player::Move(Map* MG, int direction)

@@ -3,6 +3,8 @@
 #include <sstream>
 #include <fstream>
 #include <typeinfo>
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 #include "Map.h"
 #include "ConsoleGraphics.h"
@@ -176,6 +178,32 @@ GameObject* Map::GetObject(int x, int y) {
 -- MAP DRAWING --
 ---------------*/
 
+void Map::DrawRaycast(int x, int y, float direction, int range) {
+	float const sx = 25.5; //prefix s - screen
+	float const sy = 12.5;
+	float fx = static_cast<float>(x) + 0.5; //prefix f - float
+	float fy = static_cast<float>(y) + 0.5;
+	float dir_rad = (M_PI / 180.0)*static_cast<float>(direction);
+	float xstep = cos(dir_rad);
+	float ystep = sin(dir_rad);
+	float dx = 0.0; //prefix d - distance
+	float dy = 0.0;
+	while (abs(dy) <= range && abs(dx) <= range) {
+		int cx = static_cast<int>(fx); //prefix c - cast
+		int cy = static_cast<int>(fy);
+		int scx = static_cast<int>(sx + dx);
+		int scy = static_cast<int>(sy + dy);
+		field[cx][cy]->SetSeen();
+		field[cx][cy]->DrawSelf(scx, scy);
+		if (field[cx][cy]->GetBlocksVision())
+			break;
+		fx += xstep;
+		dx += xstep;
+		fy += ystep;
+		dy += ystep;
+	}
+}
+
 void Map::DrawSingle(int map_x, int map_y, int screen_x, int screen_y, bool gray) {
 	if (map_x >= 0 && map_x < (ROOMS_W * 11) && map_y >= 0 && map_y < (ROOMS_H * 11))
 		if(gray)
@@ -202,19 +230,23 @@ void Map::DrawMapSeen(int center_x, int center_y) {
 }
 
 void Map::DrawMapVisible(int center_x, int center_y, int range) {
-	int start_x = center_x - range;
-	int start_y = center_y - range;
-	int end_x = center_x + range;
-	int end_y = center_y + range;
-	int screen_x = 25 - range;
-	int screen_y = 12 - range;
-	for (int x = start_x; x <= end_x; x++) {
-		for (int y = start_y; y <= end_y; y++) {
-			field[x][y]->SetSeen();
-			DrawSingle(x, y, screen_x, screen_y, false);
-			screen_y++;
-		}
-		screen_y = 12 - range;
-		screen_x++;
+	//all around raycast
+	for (int i = 0; i < 360; i += 5) {
+		if(i!=330) //prevents a very specific float rounding error
+			       //we do not lose much by omitting this particular angle
+			DrawRaycast(center_x, center_y, i, 8);
+	}
+	//dense raycasting in cardinal directions
+	for (float i = -10; i <= 10; i += 0.5) {
+		DrawRaycast(center_x, center_y, i, 8);
+	}
+	for (float i = 80; i <= 100; i += 0.5) {
+		DrawRaycast(center_x, center_y, i, 8);
+	}
+	for (float i = 170; i <= 190; i += 0.5) {
+		DrawRaycast(center_x, center_y, i, 8);
+	}
+	for (float i = 260; i <= 280; i += 0.5) {
+		DrawRaycast(center_x, center_y, i, 8);
 	}
 }

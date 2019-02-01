@@ -26,7 +26,7 @@ int main() {
 
 	InitializeScreen();
 
-	map->GenGenerate(player, 1);
+	map->GenGenerate(player, 10);
 
 	while (terminate == false) {
 		//DRAWING PHASE
@@ -34,7 +34,7 @@ int main() {
 		ClearScreen();
 
 		map->DrawMapSeen(player->GetX(), player->GetY());
-		map->DrawMapVisible(player->GetX(), player->GetY(), 2);
+		map->DrawMapVisible(player->GetX(), player->GetY(), 8);
 
 		player->DrawSelf(25, 12);
 

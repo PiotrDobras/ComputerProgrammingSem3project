@@ -29,6 +29,7 @@ public:
 	GameObject* GetObject(int x, int y);
 
 	//draw functions
+	void DrawRaycast(int x, int y, float direction, int range);
 	void DrawSingle(int map_x, int map_y, int screen_x, int screen_y, bool gray);
 	void DrawMapSeen(int center_x, int center_y);
 	void DrawMapVisible(int center_x, int center_y, int range);

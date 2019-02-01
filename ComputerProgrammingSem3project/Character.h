@@ -16,8 +16,6 @@ protected:
 	int y;
 	int health;
 	int maxHealth;
-	int experience;
-	int level;
 public:
 	int GetX() { return x; };
 	int GetY() { return y; };
