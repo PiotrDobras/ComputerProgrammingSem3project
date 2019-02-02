@@ -47,39 +47,47 @@ void Player::DamageArmor(int amount)
 GameObject* Player::Move(Map* MG, int direction)
 {
 
-	Environment* f_obj = NULL;
+	GameObject* f_obj = NULL;
 	//see if the tile is blocked by environment
 	switch (direction){ 
 	case 0:
-		if (MG->GetField(x + 1, y)->GetBlocksMovement() == false) {
+		if (MG->GetField(x + 1, y)->GetBlocksMovement() == false && MG->GetEnemy(x + 1, y) == NULL) {
 			SetX(x + 1);
 		}
 		else {
 			f_obj = MG->GetField(x + 1, y);
+			if (MG->GetEnemy(x + 1, y) != NULL)
+				f_obj = MG->GetEnemy(x + 1, y);
 		}
 		break;
 	case 90:
-		if (MG->GetField(x, y - 1)->GetBlocksMovement() == false){
+		if (MG->GetField(x, y - 1)->GetBlocksMovement() == false && MG->GetEnemy(x, y - 1) == NULL){
 			SetY(y - 1);
 		}
 		else {
 			f_obj = MG->GetField(x, y - 1);
+			if (MG->GetEnemy(x, y - 1) != NULL)
+				f_obj = MG->GetEnemy(x, y - 1);
 		}
 		break;
 	case 180:
-		if (MG->GetField(x - 1, y)->GetBlocksMovement() == false){
+		if (MG->GetField(x - 1, y)->GetBlocksMovement() == false && MG->GetEnemy(x - 1, y) == NULL){
 			SetX(x - 1);
 		}
 		else {
 			f_obj = MG->GetField(x - 1, y);
+			if (MG->GetEnemy(x - 1, y) != NULL)
+				f_obj = MG->GetEnemy(x - 1, y);
 		}
 		break;
 	case 270:
-		if (MG->GetField(x, y + 1)->GetBlocksMovement() == false) {
+		if (MG->GetField(x, y + 1)->GetBlocksMovement() == false && MG->GetEnemy(x, y + 1) == NULL) {
 			SetY(y + 1);
 		}
 		else {
 			f_obj = MG->GetField(x, y + 1);
+			if (MG->GetEnemy(x, y + 1) != NULL)
+				f_obj = MG->GetEnemy(x, y + 1);
 		}
 		break;
 	}
