@@ -38,12 +38,21 @@ public:
 
 class Enemy : public Character {
 	int health;
+	int attack;
+	bool moved = false;
 	//prefix w - weakness
 	bool wPiercing;
 	bool wBashing;
 	bool wSlashing;
 public:
+	//For enemies, GameObject's SetSeen() controlls wether they're aggored or not
 	Enemy();
 	virtual ~Enemy() {};
-	EventLog* Inspect() { return new EventLog("This is an enemy", 12); };
+	bool GetMoved() { return moved; };
+	void SetMoved(bool mv) { moved = mv; };
+	virtual void SetHealth(int amnt);
+	virtual void SetAttack(int amnt) { attack = amnt; };
+	int GetAttack() { return attack; };
+	virtual void ChangeHealth(int amnt, bool wP, bool wB, bool wS);
+	virtual EventLog* Inspect() { return new EventLog("This is an enemy", 12); };
 };

@@ -20,8 +20,6 @@ int main() {
 	Map* map = new Map();
 
 	Player* player = new Player();
-	player->SetX(3);
-	player->SetY(3);
 
 	Info* info = new Info(player);
 
@@ -72,6 +70,7 @@ int main() {
 			info->PushEvent(obj->Inspect());
 		}
 		info->PassTurn();
+		map->PassTurn(player);
 
 	}//main loop end
 

@@ -21,7 +21,7 @@ void Player::ChangeHealth(int amount, bool ignoreArmour)
 			DamageArmor(amount);
 			amount += GetArmorClass();
 		}
-		if (amount < 0)
+		if (amount > 0)
 			amount = 0;
 		health += amount;
 	}
@@ -95,4 +95,14 @@ Enemy::Enemy() {
 	wPiercing = false;
 	wBashing = false;
 	wSlashing = false;
+}
+
+void Enemy::SetHealth(int amnt) {
+	health = amnt;
+}
+
+void Enemy::ChangeHealth(int amnt, bool wP, bool wB, bool wS) {
+	if (wPiercing && wP || wBashing && wB || wSlashing && wS)
+		amnt = amnt * 2;
+	health += amnt;
 }

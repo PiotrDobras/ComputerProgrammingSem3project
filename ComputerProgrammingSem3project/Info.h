@@ -9,7 +9,7 @@ private:
 	Player* player;
 	GameObject* inventory[10];
 	int selected = 0;
-	int floor = 10;
+	int floor = 1;
 	EventLog* eventlog[5];
 public:
 	Info(Player* p);

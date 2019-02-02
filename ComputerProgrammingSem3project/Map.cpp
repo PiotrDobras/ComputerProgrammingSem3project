@@ -36,6 +36,7 @@ void Map::GenGenerate(Player* p, int floor) {
 	GenFixMapBorder();
 	GenRender();
 	GenPlacePlayer(p);
+	GenEnemies(floor);
 }
 
 void Map::GenInitialize() {
@@ -184,7 +185,28 @@ void Map::GenPlacePlayer(Player* p) {
 		if (field[randX][randY]->GetBlocksMovement() == false) {
 			p->SetX(randX);
 			p->SetY(randY);
+			playerStartX = randX;
+			playerStartY = randY;
 			complete = true;
+		}
+	}
+}
+
+void Map::GenEnemies(int floor){
+	int amount = floor * 3;
+	while (amount > 0) {
+		Enemy* enemy = new Enemy();
+		bool complete = false;
+		while (complete == false) {
+			int randX = rand() % (ROOMS_W * 11);
+			int randY = rand() % (ROOMS_H * 11);
+			if (field[randX][randY]->GetBlocksMovement() == false && !(randX == playerStartX && randY == playerStartY)) {
+				enemies[randX][randY] = enemy;
+				enemy->SetHealth(rand() % (floor * 5) + 5);
+				enemy->SetAttack(rand() % floor + 3 );
+				complete = true;
+				amount--;
+			}
 		}
 	}
 }
@@ -199,6 +221,48 @@ Environment* Map::GetField(int x, int y) {
 
 GameObject* Map::GetObject(int x, int y) {
 	return objects[x][y];
+}
+
+Enemy* Map::GetEnemy(int x, int y)
+{
+	return enemies[x][y];
+}
+
+void Map::PassTurn(Player* p){
+	int px = p->GetX(); //prefix p - player
+	int py = p->GetY();
+	for (int x = 0; x < ROOMS_W * 11; x++) {
+		for (int y = 0; y < ROOMS_H * 11; y++) {
+			if (enemies[x][y] != NULL && enemies[x][y]->GetSeen() && !enemies[x][y]->GetMoved()) {
+				int tx = px - x; //prefix t - target
+				int ty = py - y;
+				if (abs(tx) > abs(ty)) {
+					tx = abs(tx) / tx;
+					ty = 0;
+				}else if(abs(tx) < abs(ty)){
+					tx = 0;
+					ty = abs(ty) / ty;
+				}else{
+					tx = 0;
+					ty = 0;
+				}
+				if (field[x + tx][y + ty]->GetBlocksMovement() == false && !(px == tx + x &&  py == ty + y)) {
+					enemies[x][y]->SetMoved(true);
+					Enemy* temp = enemies[x + tx][y + ty];
+					enemies[x + tx][y + ty] = enemies[x][y];
+					enemies[x][y] = temp;
+				}else if (px == tx + x && py == ty + y) {
+					p->ChangeHealth(-enemies[x][y]->GetAttack(), false);
+				}
+			}
+		}
+	}
+	for (int x = 0; x < ROOMS_W * 11; x++) {
+		for (int y = 0; y < ROOMS_H * 11; y++) {
+			if (enemies[x][y] != NULL)
+				enemies[x][y]->SetMoved(false);
+		}
+	}
 }
 
 /*---------------
@@ -222,6 +286,10 @@ void Map::DrawRaycast(int x, int y, float direction, int range) {
 		int scy = static_cast<int>(sy + dy);
 		field[cx][cy]->SetSeen();
 		field[cx][cy]->DrawSelf(scx, scy);
+		if (enemies[cx][cy] != NULL) {
+			enemies[cx][cy]->SetSeen();
+			enemies[cx][cy]->DrawSelf(scx, scy);
+		}
 		if (field[cx][cy]->GetBlocksVision() && !(cx == x && cy == y))
 			break;
 		fx += xstep;
