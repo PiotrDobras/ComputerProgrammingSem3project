@@ -10,7 +10,7 @@
 #include "ConsoleGraphics.h"
 #include "Character.h"
 
-#define MAP_FILES 20
+#define MAP_FILES 25
 
 //PLAY SCREEN - 50x25
 
@@ -33,6 +33,7 @@ void Map::GenGenerate(Player* p, int floor) {
 		rms = 36;
 	GenPlaceRooms(rms);
 	GenFixBlockedDoorways();
+	GenFixMapBorder();
 	GenRender();
 	GenPlacePlayer(p);
 }
@@ -126,6 +127,17 @@ void Map::GenFixBlockedDoorways() {
 			}
 		}
 	} while (no_change == true);
+}
+
+void Map::GenFixMapBorder() {
+	for (int i = 0; i < ROOMS_W * 11; i++) {
+		raw[i][0] = '#';
+		raw[i][ROOMS_H * 11 - 1] = '#';
+	}
+	for (int i = 0; i < ROOMS_H * 11; i++) {
+		raw[0][i] = '#';
+		raw[ROOMS_W * 11 - 1][i] = '#';
+	}
 }
 
 void Map::GenRender() {

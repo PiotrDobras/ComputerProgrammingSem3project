@@ -38,7 +38,12 @@ public:
 
 class Enemy : public Character {
 	int health;
+	//prefix w - weakness
+	bool wPiercing;
+	bool wBashing;
+	bool wSlashing;
 public:
 	Enemy();
 	virtual ~Enemy() {};
+	EventLog* Inspect() { return new EventLog("This is an enemy", 12); };
 };

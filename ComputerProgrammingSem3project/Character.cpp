@@ -92,4 +92,7 @@ GameObject* Player::Move(Map* MG, int direction)
 Enemy::Enemy() {
 	SetGlyph('E', 12, false);
 	health = 10;
+	wPiercing = false;
+	wBashing = false;
+	wSlashing = false;
 }

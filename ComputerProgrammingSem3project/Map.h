@@ -21,6 +21,7 @@ public:
 	void GenPlaceRooms(int how_many); //call to start generating rooms from files
 	void GenReadRandomRoom(int room_x, int room_y);
 	void GenFixBlockedDoorways();
+	void GenFixMapBorder();
 	void GenRender(); //call this after completing generation
 	void GenPlacePlayer(Player* p); //call this after completing render
 	void GenPrintCorner(); //for DEBUG purposes only
