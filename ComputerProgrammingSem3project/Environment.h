@@ -27,7 +27,7 @@ public:
 		blocksMovement = true;
 		blocksVision = true;
 	};
-	virtual ~Wall() {};
+	~Wall() {};
 	EventLog* Inspect() { return new EventLog("This is a wall", 7); }
 };
 
@@ -38,7 +38,7 @@ public:
 		blocksMovement = false;
 		blocksVision = false;
 	};
-	virtual ~Floor() {};
+	~Floor() {};
 };
 
 class Pit : public Environment {
@@ -48,7 +48,7 @@ public:
 		blocksMovement = true;
 		blocksVision = false;
 	};
-	virtual ~Pit() {};
+	~Pit() {};
 	EventLog* Inspect() { return new EventLog("This is a bottomless pit", 7); }
 };
 
@@ -66,6 +66,16 @@ public:
 		SetGlyph('.', 4, true);
 		return new EventLog("You open the door", 6);
 	}
+};
+
+class Stairs : public Environment {
+public:
+	Stairs() {
+		SetGlyph('>', 15, false);
+		blocksMovement = true;
+		blocksVision = false;
+	};
+	EventLog* Inspect() { return new EventLog("You go down the stairs", 13); }
 };
 
 /*

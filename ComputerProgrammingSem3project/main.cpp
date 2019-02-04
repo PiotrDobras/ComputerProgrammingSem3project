@@ -86,11 +86,18 @@ int main() {
 			break;
 		}
 
+		//PROCESSING PHASE
+
 		if (obj != NULL) {
 			info->PushEvent(obj->Inspect());
 		}
 		info->PassTurn();
 		map->PassTurn(info);
+
+		if (info->IsNextLevel()) {
+			map->GenGenerate(info, player, info->GetFloor());
+			player->IncreaseLevel();
+		}
 
 	}//main loop end
 

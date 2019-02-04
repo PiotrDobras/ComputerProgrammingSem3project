@@ -33,6 +33,12 @@ void Player::ChangeHealth(int amount, bool ignoreArmour)
 		health = 0;
 }
 
+void Player::IncreaseLevel()
+{
+	maxHealth += 10;
+	ChangeHealth(20, true);
+}
+
 void Player::DamageArmor(int amount)
 {
 	amount = abs(amount);

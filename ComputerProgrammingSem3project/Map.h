@@ -28,6 +28,7 @@ public:
 	void GenReadRandomRoom(int room_x, int room_y);
 	void GenFixBlockedDoorways();
 	void GenFixMapBorder();
+	void GenPlaceStairs();
 	void GenRender(); //call this after completing generation
 	void GenPlacePlayer(Player* p); //call this after completing render
 	void GenPlaceItems(int floor);

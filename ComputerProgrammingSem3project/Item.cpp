@@ -17,10 +17,10 @@ std::string Item::GetFullName() {
 void Item::SetStats(int floor) {
 	if (!advanced) {
 		power = 4 + rand() % (floor * 6);
-		durability = 10 + rand() % (floor * 10);
+		durability = 10 + rand() % (10);
 	}
 	else {
 		power = 4 + rand() % (floor * 8);
-		durability = 3 + rand() % (floor * 3);
+		durability = 3 + rand() % (4);
 	}
 }

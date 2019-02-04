@@ -32,6 +32,7 @@ public:
 	void SetX(int nx) { x = nx; }
 	void SetY(int ny) { y = ny; }
 	void ChangeHealth(int amount, bool ignoreArmour);
+	void IncreaseLevel();
 	void DamageArmor(int amount);
 	void ImproveArmor();
 	GameObject* Move(Map* MG, int direction);

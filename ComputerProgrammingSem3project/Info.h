@@ -18,9 +18,11 @@ private:
 	int floor = 1;
 	int turns_passed = 0;
 	EventLog* eventlog[6];
+	bool next_level = false;
 public:
 	Info(Player* p);
 	int GetFloor() { return floor; }
+	bool IsNextLevel();
 	void PushEvent(EventLog* e);
 	void PassTurn();
 	void PickUpItem(Map* MG);

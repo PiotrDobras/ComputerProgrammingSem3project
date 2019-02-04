@@ -7,6 +7,17 @@ Info::Info(Player* p)
 	player = p;
 }
 
+bool Info::IsNextLevel()
+{
+	if (next_level) {
+		next_level = false;
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 void Info::PushEvent(EventLog * e)
 {
 	if (e == NULL)
@@ -28,6 +39,10 @@ void Info::PushEvent(EventLog * e)
 	}
 	if (e->GetText() == "You reinforce your armor") {
 		player->ImproveArmor();
+	}
+	if (e->GetText() == "You go down the stairs") {
+		next_level = true;
+		floor++;
 	}
 }
 

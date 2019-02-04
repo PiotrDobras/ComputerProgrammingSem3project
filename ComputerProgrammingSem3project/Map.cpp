@@ -28,7 +28,7 @@ bool IsStructural(char ch) {
 
 Item* RollItem(int floor) {
 	Item* item = NULL;
-	int item_classes = 7; // <-- MODIFY WHEN MORE ARE ADDED
+	int item_classes = 8; // <-- MODIFY WHEN MORE ARE ADDED
 	int roll = rand() % item_classes;
 	switch (roll) {
 	case 0:
@@ -57,6 +57,12 @@ Item* RollItem(int floor) {
 		break;
 	case 6:
 		item = new HealthPotion();
+		break;
+	case 7:
+		if (rand() % 2 == 0)
+			item = new HealthPotion();
+		else
+			item = new ArmorKit();
 		break;
 	}
 	return item;
@@ -89,8 +95,8 @@ Enemy* RollEnemy(Info* I, Player* p, int floor) {
 		enemy = new Snake(I, p);
 		break;
 	}
-	enemy->SetHealth(5 + rand() % (floor * 5));
-	enemy->SetAttack(2 + rand() % floor);
+	enemy->SetHealth(5 + rand() % (floor * 15));
+	enemy->SetAttack(2 + rand() % (floor*3));
 
 	return enemy;
 }
@@ -103,6 +109,7 @@ void Map::GenGenerate(Info* I, Player* p, int floor) {
 	GenPlaceRooms(rms);
 	GenFixBlockedDoorways();
 	GenFixMapBorder();
+	GenPlaceStairs();
 	GenRender();
 	GenPlacePlayer(p);
 	GenPlaceItems(floor);
@@ -112,6 +119,12 @@ void Map::GenGenerate(Info* I, Player* p, int floor) {
 void Map::GenInitialize() {
 	for (int x = 0; x < ROOMS_W * 11; x++) {
 		for (int y = 0; y < ROOMS_H * 11; y++) {
+			delete field[x][y];
+			field[x][y] = NULL;
+			delete objects[x][y];
+			objects[x][y] = NULL;
+			delete enemies[x][y];
+			enemies[x][y] = NULL;
 			raw[x][y] = '#';
 		}
 	}
@@ -211,6 +224,24 @@ void Map::GenFixMapBorder() {
 	}
 }
 
+void Map::GenPlaceStairs() {
+	while (true) {
+		int randX = 1 + rand() % (ROOMS_W * 11 - 2);
+		int randY = 1 + rand() % (ROOMS_H * 11 - 2);
+		if (!IsStructural(raw[randX][randY]))
+			continue;
+		int neighbours = 0;
+		neighbours += raw[randX - 1][randY] == '.';
+		neighbours += raw[randX + 1][randY] == '.';
+		neighbours += raw[randX][randY - 1] == '.';
+		neighbours += raw[randX][randY + 1] == '.';
+		if (neighbours != 1)
+			continue;
+		raw[randX][randY] = '>';
+		break;
+	}
+}
+
 void Map::GenRender() {
 	for (int x = 0; x < ROOMS_W * 11; x++) {
 		for (int y = 0; y < ROOMS_H * 11; y++) {
@@ -238,6 +269,9 @@ void Map::GenRender() {
 				break;
 			case '~':
 				field[x][y] = new Water();
+				break;
+			case '>':
+				field[x][y] = new Stairs();
 				break;
 			default:
 				field[x][y] = new Environment(); //this will print red exclamation marks to indicate something's wrong
