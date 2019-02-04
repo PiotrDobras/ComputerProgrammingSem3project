@@ -9,7 +9,11 @@ Info::Info(Player* p)
 
 void Info::PushEvent(EventLog * e)
 {
-	delete eventlog[4];
+	if (e == NULL)
+		return;
+
+	delete eventlog[5];
+	eventlog[5] = eventlog[4];
 	eventlog[4] = eventlog[3];
 	eventlog[3] = eventlog[2];
 	eventlog[2] = eventlog[1];
@@ -19,14 +23,58 @@ void Info::PushEvent(EventLog * e)
 	if (e->GetText() == "It fully healed you!") {
 		player->ChangeHealth(999999, true);
 	}
+	if (e->GetText() == "You drink the Health Potion") {
+		player->ChangeHealth(player->GetHealthMax()*0.6, true);
+	}
+	if (e->GetText() == "You reinforce your armor") {
+		player->ImproveArmor();
+	}
 }
 
 void Info::PassTurn()
 {
-	for (int i = 0; i < 5; i++) {
+	turns_passed++;
+
+	for (int i = 0; i < 6; i++) {
 		if (eventlog[i] != NULL) {
 			eventlog[i]->PassTurn();
 		}
+	}
+
+	for (int i = 0; i < 10; i++) {
+		if (inventory[i] != NULL && inventory[i]->GetDurability() <= 0) {
+			delete inventory[i];
+			inventory[i] = NULL;
+		}
+	}
+}
+
+void Info::PickUpItem(Map* MG) {
+	int x = player->GetX();
+	int y = player->GetY();
+	Item* temp;
+	if (MG->GetObject(x, y) != NULL)
+		PushEvent(new EventLog("Picked up " + MG->GetObject(x, y)->GetName(), 14));
+	if (inventory[selected] != NULL)
+		PushEvent(new EventLog("Dropped " + inventory[selected]->GetName(), 14));
+
+	temp = MG->GetObject(x, y);
+	MG->SetObject(x, y, inventory[selected]);
+	inventory[selected] = temp;
+}
+
+Item * Info::GetSelectedInventorySlot()
+{
+	return inventory[selected];
+}
+
+void Info::SelectInventorySlot(int which)
+{
+	if (selected == which && inventory[selected] != NULL) {
+		PushEvent(inventory[selected]->Use());
+	}
+	else {
+		selected = which;
 	}
 }
 
@@ -43,20 +91,19 @@ void Info::DrawGUI()
 
 	for (int i = 0; i < 10; i++) {
 		DrawAt(52, 5 + i, std::to_string((i+1)%10) + ":", 7 + 8*(selected == i));
-		DrawAt(56, 5 + i, "Empty Slot", 7 + 8*(selected == i)); //TODO: DISPLAY ITEM NAME
+		DrawAt(56, 5 + i, inventory[i]->GetFullName(), 7 + 8*(selected == i));
 	}
 
 	DrawSeparator(15);
 
 	DrawAt(52, 16, "FLOOR: " + std::to_string(GetFloor()), 15);
-	DrawAt(52, 17, "TURN: [todo]", 15);
-	DrawAt(52, 18, "KILL COUNT: [todo]", 15);
+	DrawAt(52, 17, "TURN: " + std::to_string(turns_passed), 15);
 
-	DrawSeparator(19);
+	DrawSeparator(18);
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 6; i++) {
 		if(eventlog[i] != NULL)
-			eventlog[i]->DrawEvent(20 + i);
+			eventlog[i]->DrawEvent(19 + i);
 	}
 }
 

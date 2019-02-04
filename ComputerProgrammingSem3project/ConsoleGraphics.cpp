@@ -47,11 +47,13 @@ void DrawAt(int x, int y, char ch, int color) {
 
 void DrawAt(int x, int y, std::string text, int color) {
 	int pos = 0;
-	while(pos < text.length())
-	if (x >= 0 && x < 80 && y >= 0 && y < 25) {
-		screen_next[x][y] = text[pos++];
-		screen_color_next[x][y] = color;
-		x++;
+	while (pos < text.length()) {
+		if (x >= 0 && x < 80 && y >= 0 && y < 25) {
+			screen_next[x][y] = text[pos];
+			screen_color_next[x][y] = color;
+			x++;
+		}
+		pos++;
 	}
 }
 
