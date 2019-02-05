@@ -61,6 +61,7 @@ void ClearScreen() {
 	for (int x = 0; x < 80; x++) {
 		for (int y = 0; y < 25; y++) {
 			screen_next[x][y] = ' ';
+			screen_color_next[x][y] = 0;
 		}
 	}
 }

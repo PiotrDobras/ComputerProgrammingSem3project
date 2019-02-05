@@ -129,3 +129,24 @@ public:
 	virtual ~Water() {};
 	EventLog* Inspect() { return new EventLog("This is deep water", 7); }
 };
+
+class GoldWall : public Environment {
+public:
+	GoldWall() {
+		SetGlyph('#', 14, false);
+		blocksMovement = true;
+		blocksVision = true;
+	};
+	~GoldWall() {};
+	EventLog* Inspect() { return new EventLog("This is a golden wall", 7); }
+};
+
+class GoldFloor : public Environment {
+public:
+	GoldFloor() {
+		SetGlyph('.', 14, false);
+		blocksMovement = false;
+		blocksVision = false;
+	};
+	~GoldFloor() {};
+};

@@ -10,7 +10,7 @@
 #include "Character.h"
 #include "Item.h"
 
-#define MAP_FILES 25
+#define MAP_FILES 30
 
 //PLAY SCREEN - 50x25
 
@@ -272,6 +272,12 @@ void Map::GenRender() {
 				break;
 			case '>':
 				field[x][y] = new Stairs();
+				break;
+			case '$':
+				field[x][y] = new GoldWall();
+				break;
+			case ':':
+				field[x][y] = new GoldFloor();
 				break;
 			default:
 				field[x][y] = new Environment(); //this will print red exclamation marks to indicate something's wrong

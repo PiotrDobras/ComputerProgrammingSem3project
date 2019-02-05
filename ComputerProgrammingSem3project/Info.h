@@ -22,6 +22,7 @@ private:
 public:
 	Info(Player* p);
 	int GetFloor() { return floor; }
+	int GetTurns() { return turns_passed; }
 	bool IsNextLevel();
 	void PushEvent(EventLog* e);
 	void PassTurn();
